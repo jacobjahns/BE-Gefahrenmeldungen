@@ -15,6 +15,10 @@ export default {
 </script>
 
 <style lang="scss">
+* {
+  margin: 0;
+  padding: 0;
+}
 :root {
   --color-primary: #085b7e;
   --color-secondary: #f9f8f5;
@@ -25,13 +29,20 @@ export default {
   font-family: Avenir, Helvetica, Arial, sans-serif;
 }
 :root, body {
-  margin: 0;
-  padding: 0;
   width: 100%;
   height: 100%;
 }
 
-
-#app {
+.column {
+  display: flex;
+  flex-direction: column;
+  justify-content: stretch;
+  align-items: stretch;
+}
+.column-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: stretch;
+  align-items: stretch;
 }
 </style>
