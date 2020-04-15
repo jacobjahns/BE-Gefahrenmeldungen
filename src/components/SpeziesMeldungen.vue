@@ -1,13 +1,13 @@
 <template>
   <div class="speziesMeldungen">
     <div class="column-head">
-      <h1 class="speziesMeldungen-name">{{ this.name }}</h1>
+      <h5 class="speziesMeldungen-name">{{ this.name }}</h5>
     </div>
     <div class="column-body speziesMeldungen-ergebnisse">
       <div class="speziesMeldungen-ergebnis" v-for="m in this.meldungen" :key="m.id">
         <img :src="m.image" alt="Kein Bild" class="ergebnis-pic">
-        <h2 class="ergebnis-time">{{ m.findingDate }}</h2>
-        <a class="ergebnis-id">{{ m.id }}</a>
+        <p class="ergebnis-time">{{ m.findingDate }}</p>
+        <a class="ergebnis-id" :href="'https://www.beachexplorer.org/funde/' + m.id">{{ m.id }}</a>
         <div class="ergebnis-loc">{{ m.coordinates.longitude }}</div>
       </div>
     </div>
@@ -32,10 +32,20 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
+.speziesMeldungen {
+  background-color: var(--color-secondary);
+  border-radius: 10px;
+  padding: 10px 15px;
+  margin: 20px 0;
+}
+.column-head {
+  margin-bottom: 10px;
+}
 .speziesMeldungen-ergebnis {
   display: grid;
-  grid-template-rows: 2fr 1.5fr 1.5fr;
-  grid-template-columns: 1fr 5fr;
+  grid-template-rows: 1.05fr 1fr 1fr;
+  grid-template-columns: 1fr 2fr;
+  grid-column-gap: 10px;
 
   .ergebnis-pic {
     grid-row: 1 / -1;

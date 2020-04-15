@@ -24,13 +24,18 @@ export default {
   --color-secondary: #f9f8f5;
   --color-background: #eae3d9;
   --color-text: #085c7e;
+  --color-link: darken(#085c7e, 10%);
+  --color-border: #7b7b7b;
 
   font-size: 16px;
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Cabin', sans-serif;
 }
 :root, body {
   width: 100%;
   height: 100%;
+
+  color: var(--color-text);
+  background-color: var(--color-background);
 }
 
 .column {
@@ -44,5 +49,33 @@ export default {
   flex-direction: column;
   justify-content: stretch;
   align-items: stretch;
+}
+.row-head {
+  text-align: center;
+  margin-bottom: 10px;
+}
+.row-body {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+}
+h5 {
+  font-size: 1.4375rem;
+  font-weight: normal;
+}
+p {
+  font-size: 1rem;
+  font-weight: bold;
+}
+a {
+  font-size: .875rem;
+  font-weight: normal;
+  color: var(--color-link);
+  cursor: default;
+
+  &:active {
+    opacity: .9;
+  }
 }
 </style>
