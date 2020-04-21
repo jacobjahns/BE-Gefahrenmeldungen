@@ -5,7 +5,7 @@
     </div>
     <div class="row-body">
       <div class="aktuell-meldung" v-for="m in meldungen" :key="m.id">
-        <p class="ergebnis-species">{{ m.species }}</p>
+        <p class="ergebnis-species">{{ m.species.name }}</p>
         <img :src="m.image" alt="Kein Bild" class="ergebnis-pic">
         <a class="ergebnis-time" :href="'https://www.beachexplorer.org/funde/' + m.id">{{ getDate(m.findingDate) }}</a>
       </div>

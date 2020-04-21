@@ -3,10 +3,10 @@
     <Aktuell :meldungen="meldungen.recent" />
     <section class="spezies">
       <div class="column" v-for="s in species" :key="s.id">
-        <SpeziesMeldungen :meldungen="meldungen.bySpecies[species.indexOf(s)]" :name="s" />
+        <SpeziesMeldungen :meldungen="meldungen.bySpecies[species.indexOf(s)]" :species="s" />
       </div>
       <div class="column" v-if="species.length<=0">
-        <SpeziesMeldungen :name="'Keine Spezies ausgewählt'" />
+        <SpeziesMeldungen />
       </div>
     </section>
     <SpeziesSuche />
@@ -43,17 +43,18 @@ export default {
   },
   watch: {
     $route() {
-      this.getQueryParams();
+      this.getSpecies();
     }
   },
   mounted() {
-    this.getQueryParams();
+    this.getSpecies();
   },
   methods: {
-    getQueryParams() {
-      let q = this.$route.query.species;
-      q = Array.isArray(q) ? q : [q];
-      this.species = q;
+    getSpecies() {
+      let q = this.getQueryParams();
+      let arr = [{"id":4228,"name":"Aalmutter","scienceName":"Zoarces viviparus","slug":"zoarces-viviparus"},{"id":6335,"name":"Ei Trottellumme","scienceName":"Uria aalge (ovum)","slug":"uria-aalge-ovum"},{"id":6294,"name":"Fl\u00fcgel Trottellumme","scienceName":"Uria aalge (ala)","slug":"uria-aalge-ala"},{"id":6295,"name":"Fl\u00fcgel Trottellumme Jungvogel","scienceName":"Uria aalge (ala iuvenilis)","slug":"uria-aalge-ala-iuvenilis"},{"id":4202,"name":"Flussaal","scienceName":"Anguilla anguilla","slug":"anguilla-anguilla"},{"id":5504,"name":"Glasaal","scienceName":"Anguilla anguilla (juvenile)","slug":"anguilla-anguilla-juvenile"},{"id":4206,"name":"Gro\u00dfer Sandaal","scienceName":"Hyperoplus lanceolatus","slug":"hyperoplus-lanceolatus"},{"id":4208,"name":"Kleiner Sandaal","scienceName":"Ammodytes tobianus","slug":"ammodytes-tobianus"},{"id":4203,"name":"Meeraal","scienceName":"Conger conger","slug":"conger-conger"},{"id":4210,"name":"Nacktsandaal","scienceName":"Gymnammodytes semisquamatus","slug":"gymnammodytes-semisquamatus"},{"id":6500,"name":"Sch\u00e4del Trottellumme","scienceName":"Uria aalge (cranium)","slug":"uria-aalge-cranium"},{"id":5450,"name":"Trottellumme","scienceName":"Uria aalge","slug":"uria-aalge"},{"id":4207,"name":"Ungefleckter Sandaal","scienceName":"Hyperoplus immaculatus","slug":"hyperoplus-immaculatus"}];
+      this.species = arr.filter(elem => q.indexOf(elem.slug) >= 0);
+      console.log(q);
 
       // this.species = [];
 
@@ -65,14 +66,13 @@ export default {
 
       //       fetch("http://api.beachexplorer.org/v1/determination/forSpecies/" + data[0] + "?_format=json&order=DESC")
       //         .then(res => res.json)
-      //         .then(data => {
-                  // this.meldungen.jsonData.push([data]);
-                  // this.processJSONData();
-                  // })
+      //         .then(data => this.meldungen.bySpecies.push([data]))
       //         .catch(e => console.error(e));
       //     })
       //     .catch(e => console.error(e));
       // });
+      
+      // this.meldungen.recent = this.species.length > 0 ? this.stackRecent() : [];
 
       this.processJSONData(); // zum testen
     },
@@ -86,17 +86,17 @@ export default {
       this.processJSONData();
     },
 
-    processJSONData() {
+    processJSONData() { // nicht mehr benötigt
       this.meldungen.bySpecies = this.meldungen.jsonData;
       this.meldungen.bySpecies.forEach(s => {
         s.sort((a, b) => Date.parse(b.findingDate) - Date.parse(a.findingDate));
       });
-
-      this.meldungen.recent = this.stackRecent();
+      this.meldungen.recent = this.species.length > 0 ? this.stackRecent() : [];
     },
 
     stackRecent() {
       let stack = Array(this.recentLength).fill({findingDate: 0});
+      
       for(const s of this.meldungen.bySpecies) {
         for(const m of s) {
           for(let i = 0; i < this.recentLength; i++) {

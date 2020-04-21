@@ -1,7 +1,8 @@
 <template>
   <div class="speziesMeldungen">
     <div class="column-head">
-      <h5 class="speziesMeldungen-name">{{ this.name }}</h5>
+      <h5 class="speziesMeldungen-name" v-if="this.species != undefined">{{ this.species.name }}</h5>
+      <h5 class="speziesMeldungen-name" v-else>{{ this.noSpeciesMsg }}</h5>
     </div>
     <div class="column-body speziesMeldungen-ergebnisse">
       <div class="speziesMeldungen-ergebnis" v-for="m in this.meldungen" :key="m.id">
@@ -18,11 +19,12 @@
 export default {
   name: 'SpeziesMeldungen',
   props: {
-    name: String,
+    species: Object,
     meldungen: Array
   },
   data() {
     return {
+      noSpeciesMsg: 'Keine Spezies ausgewählt'
     }
   },
   methods: {
