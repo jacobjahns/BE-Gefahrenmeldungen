@@ -3,6 +3,7 @@
     <div class="column-head">
       <h5 class="speziesMeldungen-name" v-if="this.species != undefined">{{ this.species.name }}</h5>
       <h5 class="speziesMeldungen-name" v-else>{{ this.noSpeciesMsg }}</h5>
+      <a @click="rmQuery()">Entfernen</a>
     </div>
     <div class="column-body speziesMeldungen-ergebnisse">
       <div class="speziesMeldungen-ergebnis" v-for="m in this.meldungen" :key="m.id">
@@ -28,6 +29,12 @@ export default {
     }
   },
   methods: {
+    rmQuery() {
+      let arr = this.getQueryParams();
+      arr.splice(arr.indexOf(this.species.slug), 1);
+      this.$router.replace({query: {species: null}});
+      this.$router.replace({query: {species: arr}});
+    }
   }
 }
 </script>
@@ -42,6 +49,14 @@ export default {
 }
 .column-head {
   margin-bottom: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  a {
+    text-transform: uppercase;
+    font-size: 80%;
+  }
 }
 .speziesMeldungen-ergebnis {
   display: grid;
