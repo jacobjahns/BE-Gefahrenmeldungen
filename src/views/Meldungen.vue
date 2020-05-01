@@ -118,6 +118,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "../style/_mixins.scss";
+
 .content {
   width: 100%;
   height: 100%;
@@ -129,11 +131,21 @@ export default {
 
 .spezies {
   display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   border-top: 1px dotted var(--color-border);
   border-bottom: 1px dotted var(--color-border);
-  margin: 20px 0;
   flex-wrap: wrap;
+  margin: 20px 0;
+
+  @include media(tablet) {
+    flex-direction: row;
+    align-items: flex-start;
+
+    .column {
+      width: 300px;
+    }
+  }
 }
 </style>

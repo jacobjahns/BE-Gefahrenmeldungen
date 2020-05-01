@@ -15,17 +15,21 @@ export default {
 </script>
 
 <style lang="scss">
+@import "./style/_variables.scss";
+@import "./style/_mixins.scss";
+
 * {
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 :root {
-  --color-primary: #085b7e;
-  --color-secondary: #f9f8f5;
-  --color-background: #eae3d9;
-  --color-text: #085c7e;
-  --color-link: darken(#085c7e, 10%);
-  --color-border: #7b7b7b;
+  --color-primary: #{$color-primary};
+  --color-secondary: #{$color-secondary};
+  --color-background: #{$color-background};
+  --color-text: #{$color-text};
+  --color-link: #{$color-link};
+  --color-border: #{$color-border};
 
   font-size: 16px;
   font-family: 'Cabin', sans-serif;
@@ -38,18 +42,21 @@ export default {
   background-color: var(--color-background);
 }
 
-.column {
+
+%column-shared {
   display: flex;
   flex-direction: column;
   justify-content: stretch;
   align-items: stretch;
+}
+.column {
+  @extend %column-shared;
+  margin: 0 16px;
 }
 .column-body {
-  display: flex;
-  flex-direction: column;
-  justify-content: stretch;
-  align-items: stretch;
+  @extend %column-shared;
 }
+
 .row-head {
   text-align: center;
   margin-bottom: 10px;
@@ -60,6 +67,7 @@ export default {
   justify-content: space-evenly;
   flex-wrap: wrap;
 }
+
 h5 {
   font-size: 1.4375rem;
   font-weight: normal;

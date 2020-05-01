@@ -18,7 +18,6 @@ export default {
   },
   data() {
     return {
-      lastRequest: 0,
       searchInput: "",
       species: [{"id":4228,"name":"Aalmutter","scienceName":"Zoarces viviparus","slug":"zoarces-viviparus"},{"id":6335,"name":"Ei Trottellumme","scienceName":"Uria aalge (ovum)","slug":"uria-aalge-ovum"},{"id":6294,"name":"Fl\u00fcgel Trottellumme","scienceName":"Uria aalge (ala)","slug":"uria-aalge-ala"},{"id":6295,"name":"Fl\u00fcgel Trottellumme Jungvogel","scienceName":"Uria aalge (ala iuvenilis)","slug":"uria-aalge-ala-iuvenilis"},{"id":4202,"name":"Flussaal","scienceName":"Anguilla anguilla","slug":"anguilla-anguilla"},{"id":5504,"name":"Glasaal","scienceName":"Anguilla anguilla (juvenile)","slug":"anguilla-anguilla-juvenile"},{"id":4206,"name":"Gro\u00dfer Sandaal","scienceName":"Hyperoplus lanceolatus","slug":"hyperoplus-lanceolatus"},{"id":4208,"name":"Kleiner Sandaal","scienceName":"Ammodytes tobianus","slug":"ammodytes-tobianus"},{"id":4203,"name":"Meeraal","scienceName":"Conger conger","slug":"conger-conger"},{"id":4210,"name":"Nacktsandaal","scienceName":"Gymnammodytes semisquamatus","slug":"gymnammodytes-semisquamatus"},{"id":6500,"name":"Sch\u00e4del Trottellumme","scienceName":"Uria aalge (cranium)","slug":"uria-aalge-cranium"},{"id":5450,"name":"Trottellumme","scienceName":"Uria aalge","slug":"uria-aalge"},{"id":4207,"name":"Ungefleckter Sandaal","scienceName":"Hyperoplus immaculatus","slug":"hyperoplus-immaculatus"}]
     }
@@ -46,6 +45,14 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
+@import "../style/_variables.scss";
+@import "../style/_mixins.scss";
+
+.speziesSuche-ergebnisse {
+  max-width: 1024px;
+  margin: 0 auto;
+}
+
 a {
   cursor: pointer;
   background-color: var(--color-secondary);

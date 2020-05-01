@@ -3,7 +3,7 @@
     <div class="column-head">
       <h5 class="speziesMeldungen-name" v-if="this.species != undefined">{{ this.species.name }}</h5>
       <h5 class="speziesMeldungen-name" v-else>{{ this.noSpeciesMsg }}</h5>
-      <a @click="rmQuery()">Entfernen</a>
+      <a @click="rmQuery()" v-if="this.species != undefined">Entfernen</a>
     </div>
     <div class="column-body speziesMeldungen-ergebnisse">
       <div class="speziesMeldungen-ergebnis" v-for="m in this.meldungen" :key="m.id">
@@ -39,8 +39,7 @@ export default {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang="scss">
+<style lang="scss">
 .speziesMeldungen {
   background-color: var(--color-secondary);
   border-radius: 10px;
@@ -49,9 +48,11 @@ export default {
 }
 .column-head {
   margin-bottom: 10px;
+  padding-bottom: 5px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  border-bottom: 1px dotted var(--color-border);
 
   a {
     text-transform: uppercase;
