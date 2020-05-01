@@ -18,7 +18,6 @@ export default {
   },
   data() {
     return {
-      lastRequest: 0,
       searchInput: "",
       species: []
     }
@@ -46,6 +45,14 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
+@import "../style/_variables.scss";
+@import "../style/_mixins.scss";
+
+.speziesSuche-ergebnisse {
+  max-width: 1024px;
+  margin: 0 auto;
+}
+
 a {
   cursor: pointer;
   background-color: var(--color-secondary);
