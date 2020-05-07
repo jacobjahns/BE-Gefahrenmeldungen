@@ -52,7 +52,7 @@ export default {
       this.species = [];
 
       q.forEach(p => {
-        fetch("https://www.stage.beachexplorer.org/arten/typeahead?q=" + p)
+        fetch("https://api.stage.beachexplorer.org/v2/species?q=" + p)
           .then(res => res.json)
           .then(data => {
             this.species.push(data[0]);
