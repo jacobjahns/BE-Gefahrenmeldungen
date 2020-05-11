@@ -3,6 +3,11 @@ import App from './App.vue'
 import router from './router'
 
 Vue.mixin({
+  data() {
+    return {
+      header: new Headers({'Authorization': 'Basic ' + btoa('beachex:beachex')})
+    }
+  },
   methods: {
     getQueryParams() {
       let q = this.$route.query.species;
