@@ -24,7 +24,7 @@ export default {
   },
   methods: {
     requestSpecies() {
-      fetch("https://api.stage.beachexplorer.org/v2/species?q=" + this.searchInput, {headers: {headers: this.header}})
+      fetch("https://api.stage.beachexplorer.org/v2/species?q=" + this.searchInput, {method:'GET', headers: {headers: this.header}})
         .then(res => res.json)
         .then(data => {
           this.species = data;

@@ -52,12 +52,12 @@ export default {
       this.species = [];
 
       q.forEach(p => {
-        fetch("https://api.stage.beachexplorer.org/v2/species?q=" + p, {headers: this.header})
+        fetch("https://api.stage.beachexplorer.org/v2/species?q=" + p, {method:'GET', headers: this.header})
           .then(res => res.json)
           .then(data => {
             this.species.push(data[0]);
 
-            fetch("http://api.beachexplorer.org/v1/determination/forSpecies/" + data[0] + "?_format=json&order=DESC", {headers: this.header})
+            fetch("http://api.beachexplorer.org/v1/determination/forSpecies/" + data[0] + "?_format=json&order=DESC", {method:'GET', headers: this.header})
               .then(res => res.json)
               .then(data => this.meldungen.bySpecies.push([data]))
               .catch(e => console.error(e));
