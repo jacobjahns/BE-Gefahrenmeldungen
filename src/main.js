@@ -5,7 +5,14 @@ import router from './router'
 Vue.mixin({
   data() {
     return {
-      header: new Headers({'Authorization': 'Basic ' + btoa('beachex:beachex')})
+      // header: new Headers({'Content-type': 'application/json', 'Authorization': 'Basic ' + btoa('beachex:beachex')})
+      axiosOptions: {
+        method: 'GET',
+        headers: {
+          'Content-type': 'application/json',
+          'Authorization': 'Basic ' + btoa('beachex:beachex')
+        }
+      }
     }
   },
   methods: {

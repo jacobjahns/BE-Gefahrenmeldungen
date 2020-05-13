@@ -1,6 +1,6 @@
 <template>
   <main class="content">
-    <Aktuell :meldungen="meldungen.recent" />
+    <Aktuell :meldungen="meldungen.recent"  v-if="species.length>0"/>
     <section class="spezies">
       <div class="column" v-for="s in species" :key="s.id">
         <SpeziesMeldungen :meldungen="meldungen.bySpecies[species.indexOf(s)]" :species="s" />
@@ -18,6 +18,7 @@
 import Aktuell from '@/components/Aktuell.vue'
 import SpeziesSuche from '@/components/SpeziesSuche.vue'
 import SpeziesMeldungen from '@/components/SpeziesMeldungen.vue'
+import axios from 'axios'
 
 export default {
   name: 'Meldungen',
@@ -51,14 +52,25 @@ export default {
 
       this.species = [];
 
+      // q.forEach(p => {
+      //   fetch("https://api.stage.beachexplorer.org/v2/species?q=" + p, {method:'GET', headers: this.header})
+      //     .then(res => res.json)
+      //     .then(data => {
+      //       this.species.push(data[0]);
+
+      //       fetch("http://api.beachexplorer.org/v1/determination/forSpecies/" + data[0] + "?_format=json&order=DESC", {method:'GET', headers: this.header})
+      //         .then(res => res.json)
+      //         .then(data => this.meldungen.bySpecies.push([data]))
+      //         .catch(e => console.error(e));
+      //     })
+      //     .catch(e => console.error(e));
+      // });
       q.forEach(p => {
-        fetch("https://api.stage.beachexplorer.org/v2/species?q=" + p, {method:'GET', headers: this.header})
-          .then(res => res.json)
+        axios.get("https://api.stage.beachexplorer.org/v2/species?q=" + p, this.axiosOptions)
           .then(data => {
             this.species.push(data[0]);
 
-            fetch("http://api.beachexplorer.org/v1/determination/forSpecies/" + data[0] + "?_format=json&order=DESC", {method:'GET', headers: this.header})
-              .then(res => res.json)
+            axios.get("http://api.beachexplorer.org/v1/determination/forSpecies/" + data[0] + "?_format=json&order=DESC", this.axiosOptions)
               .then(data => this.meldungen.bySpecies.push([data]))
               .catch(e => console.error(e));
           })

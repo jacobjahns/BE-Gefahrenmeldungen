@@ -5,13 +5,15 @@
     </div>
     <div class="row-body speziesSuche-ergebnisse">
       <div class="speziesSuche-ergebnis" v-for="s in this.species" :key="s.id">
-        <a @click="addQuery(s.slug)">{{s.name}}</a>
+        <a @click="addQuery(s.scienceName)">{{s.name}}</a>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
   name: 'SpeziesSuche',
   props: {
@@ -24,12 +26,15 @@ export default {
   },
   methods: {
     requestSpecies() {
-      fetch("https://api.stage.beachexplorer.org/v2/species?q=" + this.searchInput, {method:'GET', headers: {headers: this.header}})
-        .then(res => res.json)
+      // fetch("https://api.stage.beachexplorer.org/v2/species?q=" + this.searchInput, {method:'GET', headers: {headers: this.header}})
+      //   .then(res => res.json)
+      //   .then(data => {
+      //     this.species = data;
+      //   });
+      axios.get("https://api.stage.beachexplorer.org/v2/species?q=" + this.searchInput, this.axiosOptions)
         .then(data => {
           this.species = data;
-        })
-      ;
+        });
     },
     addQuery(q) {
       let arr = this.getQueryParams();
