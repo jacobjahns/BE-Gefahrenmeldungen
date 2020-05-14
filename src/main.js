@@ -19,6 +19,10 @@ Vue.mixin({
     getQueryParams() {
       let q = this.$route.query.species;
       return q = Array.isArray(q) ? q : q != undefined ? [q] : [];
+    },
+    getDate(i) {
+      let d = new Date(i);
+      return (d.getDate() > 9 ? d.getDate() : "0" + d.getDate()) + "." + (d.getMonth()+1) + "." + d.getFullYear();
     }
   }
 })

@@ -73,7 +73,7 @@ h5 {
   font-weight: normal;
 }
 p {
-  font-size: 1rem;
+  font-size: 1.1rem;
   font-weight: bold;
 }
 a {

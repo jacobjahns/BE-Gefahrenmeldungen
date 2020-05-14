@@ -6,8 +6,8 @@
     <div class="row-body">
       <div class="aktuell-meldung" v-for="m in meldungen" :key="m.id">
         <p class="ergebnis-species">{{ m.species.name }}</p>
-        <img :src="m.image" alt="Kein Bild" class="ergebnis-pic">
         <a class="ergebnis-time" :href="'https://www.beachexplorer.org/funde/' + m.id">{{ getDate(m.findingDate) }}</a>
+        <!-- <img :src="m.image" alt="Kein Bild" class="ergebnis-pic"> -->
       </div>
     </div>
   </div>
@@ -18,12 +18,6 @@ export default {
   name: 'Aktuell',
   props: {
     meldungen: Array
-  },
-  methods: {
-    getDate(i) {
-      let d = new Date(i);
-      return (d.getDate() > 9 ? d.getDate() : "0" + d.getDate()) + "." + (d.getMonth()+1) + "." + d.getFullYear();
-    }
   }
 }
 </script>
@@ -64,26 +58,41 @@ export default {
   background-color: var(--color-secondary);
   display: flex;
   flex-direction: column;
+  justify-content: center;
   padding: 10px;
   border-radius: 10px;
+  background-color: var(--color-primary);
+  color: #fff;
 
-  $max: 4;
-  @for $i from 0 to $max {
-    &:nth-child(#{$i + 1}) {
-      background-color: lighten($color-primary, $i * 5%);
-
-      @if $i < 3 {
-        color: var(--color-background);
-
-        a {
-          color: var(--color-secondary);
-        }
-      }
-    }
-    &:nth-last-child(#{$i + 1}) {
-      background-color: lighten($color-primary, 5% + $max * 5% * 2 + $i * -5%);
-    }
+  img {
+    object-fit: cover;
+    object-position: center;
+    width: 100%;
+    height: 10vh;
   }
+
+  a {
+    margin: 5px 0;
+    color: #fff;
+  }
+
+  // $max: 4;
+  // @for $i from 0 to $max {
+  //   &:nth-child(#{$i + 1}) {
+  //     background-color: lighten($color-primary, $i * 5%);
+
+  //     @if $i < 3 {
+  //       color: var(--color-background);
+
+  //       a {
+  //         color: #fff;
+  //       }
+  //     }
+  //   }
+  //   &:nth-last-child(#{$i + 1}) {
+  //     background-color: lighten($color-primary, 5% + $max * 5% * 2 + $i * -5%);
+  //   }
+  // }
 
   @include media(tablet) {
     max-width: 160px;

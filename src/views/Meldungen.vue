@@ -8,6 +8,7 @@
       <div class="column" v-if="species.length<=0">
         <SpeziesMeldungen />
       </div>
+        <a @click="log()">log</a>
     </section>
     <SpeziesSuche />
   </main>
@@ -31,8 +32,8 @@ export default {
     return {
       meldungen: {
         bySpecies: [],
-        recent: [],
-        jsonData : []
+        recent   : [],
+        dummy    : []
       },
       species: [],
       recentLength: 8
@@ -50,55 +51,40 @@ export default {
     getSpecies() {
       let q = this.getQueryParams();
 
-      this.species = [];
+      let dummyRecent = [];
 
-      // q.forEach(p => {
-      //   fetch("https://api.stage.beachexplorer.org/v2/species?q=" + p, {method:'GET', headers: this.header})
-      //     .then(res => res.json)
-      //     .then(data => {
-      //       this.species.push(data[0]);
-
-      //       fetch("http://api.beachexplorer.org/v1/determination/forSpecies/" + data[0] + "?_format=json&order=DESC", {method:'GET', headers: this.header})
-      //         .then(res => res.json)
-      //         .then(data => this.meldungen.bySpecies.push([data]))
-      //         .catch(e => console.error(e));
-      //     })
-      //     .catch(e => console.error(e));
-      // });
-      q.forEach(p => {
-        axios.get("https://api.stage.beachexplorer.org/v2/species?q=" + p, this.axiosOptions)
-          .then(data => {
-            this.species.push(data[0]);
-
-            axios.get("http://api.beachexplorer.org/v1/determination/forSpecies/" + data[0] + "?_format=json&order=DESC", this.axiosOptions)
-              .then(data => this.meldungen.bySpecies.push([data]))
-              .catch(e => console.error(e));
-          })
-          .catch(e => console.error(e));
-      });
-      
-      this.meldungen.recent = this.species.length > 0 ? this.stackRecent() : [];
-    },
-
-    stackRecent() {
-      let stack = Array(this.recentLength).fill({findingDate: 0});
-
-      for(const s of this.meldungen.bySpecies) {
-        for(const m of s) {
-          for(let i = 0; i < this.recentLength; i++) {
-            if(Date.parse(m.findingDate) > Date.parse(stack[i].findingDate)) {
-              let o = m;
-              o.species = this.species[this.meldungen.bySpecies.indexOf(s)];
-              stack.splice(i, 0, o);
-              stack.pop();
-              break;
-            }
-          }
+      if(q.length != 0) {
+        if(this.species.length <= 0) {
+          this.species = new Array(q.length).fill({});
         }
-      }
+        console.log(this.meldungen.bySpecies);
+        q.forEach((p, i) => {
+          axios.get("https://api.stage.beachexplorer.org/v2/species?q=" + p, this.axiosOptions)
+            .then(s => {
+              this.species[i] = s.data[0];
 
-      return stack;
-    }
+              axios.get("https://api.stage.beachexplorer.org/v2/determination/forSpecies/" + s.data[0].slug + "?_format=json&order=DESC", this.axiosOptions)
+                .then(r => {
+                  this.meldungen.bySpecies[i] = r.data;
+
+                  dummyRecent = dummyRecent.concat(r.data.map(x => x = {...x, species: s.data[0]}).slice(0, this.recentLength));
+                  if(dummyRecent.length > this.recentLength) {
+                    dummyRecent.sort((a, b) => Date.parse(b.findingDate) - Date.parse(a.findingDate));
+                    dummyRecent = dummyRecent.slice(0, this.recentLength)
+                  }
+                  this.meldungen.recent = dummyRecent;
+                })
+                .catch(err => console.error(err));
+            })
+            .catch(err => console.error(err));
+        });
+      
+        this.meldungen.bySpecies = this.meldungen.dummy;
+        this.meldungen.recent = dummyRecent;
+
+      }
+    },
+    log() {this.getSpecies()}
   }
 }
 </script>

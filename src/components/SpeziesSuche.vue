@@ -26,15 +26,17 @@ export default {
   },
   methods: {
     requestSpecies() {
+
       // fetch("https://api.stage.beachexplorer.org/v2/species?q=" + this.searchInput, {method:'GET', headers: {headers: this.header}})
       //   .then(res => res.json)
       //   .then(data => {
       //     this.species = data;
       //   });
+
       axios.get("https://api.stage.beachexplorer.org/v2/species?q=" + this.searchInput, this.axiosOptions)
-        .then(data => {
-          this.species = data;
-        });
+        .then(r => this.species = r.data.length > 30 ? r.data.slice(0, 30) : r.data)
+        .catch(err => console.error(err));
+
     },
     addQuery(q) {
       let arr = this.getQueryParams();
