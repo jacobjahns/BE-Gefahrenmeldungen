@@ -30,6 +30,7 @@ export default {
   },
   methods: {
     rmQuery() {
+      console.log('this');console.log(this.meldungen);
       let arr = this.getQueryParams();
       arr.splice(arr.indexOf(this.species.slug), 1);
       this.$router.replace({query: {species: null}});

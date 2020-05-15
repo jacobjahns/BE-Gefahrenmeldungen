@@ -1,6 +1,6 @@
 <template>
   <main class="content">
-    <Aktuell :meldungen="meldungen.recent"  v-if="species.length>0"/>
+    <Aktuell :meldungen="meldungen.recent"  v-if="species.length>0" />
     <section class="spezies">
       <div class="column" v-for="s in species" :key="s.id">
         <SpeziesMeldungen :meldungen="meldungen.bySpecies[species.indexOf(s)]" :species="s" />
@@ -8,7 +8,7 @@
       <div class="column" v-if="species.length<=0">
         <SpeziesMeldungen />
       </div>
-        <a @click="log()">log</a>
+        <!-- <a @click="log()">log</a> -->
     </section>
     <SpeziesSuche />
   </main>
@@ -41,14 +41,14 @@ export default {
   },
   watch: {
     $route() {
-      this.getSpecies();
+      this.loadData();
     }
   },
-  mounted() {
-    this.getSpecies();
+  created() {
+    this.loadData();
   },
   methods: {
-    getSpecies() {
+    loadData() {
       let q = this.getQueryParams();
 
       let dummyRecent = [];
@@ -57,7 +57,7 @@ export default {
         if(this.species.length <= 0) {
           this.species = new Array(q.length).fill({});
         }
-        console.log(this.meldungen.bySpecies);
+        
         q.forEach((p, i) => {
           axios.get("https://api.stage.beachexplorer.org/v2/species?q=" + p, this.axiosOptions)
             .then(s => {
@@ -65,32 +65,36 @@ export default {
 
               axios.get("https://api.stage.beachexplorer.org/v2/determination/forSpecies/" + s.data[0].slug + "?_format=json&order=DESC", this.axiosOptions)
                 .then(r => {
-                  this.meldungen.bySpecies[i] = r.data;
+                  this.meldungen.bySpecies[i] = r.data.slice(0, 20);
+
+                  let dummyBySpecies = this.meldungen.bySpecies;
+                  this.meldungen.bySpecies = dummyBySpecies;
 
                   dummyRecent = dummyRecent.concat(r.data.map(x => x = {...x, species: s.data[0]}).slice(0, this.recentLength));
+
                   if(dummyRecent.length > this.recentLength) {
                     dummyRecent.sort((a, b) => Date.parse(b.findingDate) - Date.parse(a.findingDate));
-                    dummyRecent = dummyRecent.slice(0, this.recentLength)
+                    dummyRecent = dummyRecent.slice(0, this.recentLength);
                   }
+
                   this.meldungen.recent = dummyRecent;
                 })
                 .catch(err => console.error(err));
             })
             .catch(err => console.error(err));
         });
-      
-        this.meldungen.bySpecies = this.meldungen.dummy;
-        this.meldungen.recent = dummyRecent;
-
       }
-    },
-    log() {this.getSpecies()}
+    }
+    
+    ,
+    log() {console.log(this.meldungen.bySpecies[0])}
   }
 }
 </script>
 
 <style lang="scss" scoped>
 @import "../style/_mixins.scss";
+@import "../style/_variables.scss";
 
 .content {
   width: 100%;
