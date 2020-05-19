@@ -22,7 +22,7 @@ Vue.mixin({
     },
     getDate(i) {
       let d = new Date(i);
-      return (d.getDate() > 9 ? d.getDate() : "0" + d.getDate()) + "." + (d.getMonth()+1) + "." + d.getFullYear();
+      return (d.getDate() > 9 ? d.getDate() : "0" + d.getDate()) + "." + (d.getMonth() > 8 ? d.getMonth()+1 : "0" + (d.getMonth()+1)) + "." + d.getFullYear();
     }
   }
 })
