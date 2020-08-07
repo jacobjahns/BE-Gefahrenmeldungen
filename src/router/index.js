@@ -8,19 +8,20 @@ Vue.use(VueRouter);
 const routes = [
   {
     path: '/gefahrenmeldungen/',
+    alias: '/',
     name: 'Meldungen',
-    component: Meldungen
+    component: Meldungen,
   },
   {
     path: '/luftballons/',
     name: Luftballons,
-    component: Luftballons
-  }
+    component: Luftballons,
+  },
 ];
 
 const router = new VueRouter({
   mode: '',
-  routes
+  routes,
 });
 
 export default router;
